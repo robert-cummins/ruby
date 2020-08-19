@@ -6,6 +6,16 @@ users = [
     {username: 'Beth', password: '123456'}
 ]
 
+def auth_user(username, password, list_of_users)
+    list_of_users.each do |user|
+        if (user[:username] == username) && (user[:password] == password)
+            puts "Welcome #{username}"
+            return true
+        end
+    end
+    return false
+end
+
 while run == true
     authenticated = false
     puts "Welcome to authenticator"
@@ -15,23 +25,12 @@ while run == true
     puts "Please enter a password"
     password = gets.chomp
     
-    users.each do |user|
-        if (user[:username] == username) && (user[:password] == password)
-            puts "Welcome #{username}"
-            authenticated = true
-            break
-        else
-            authenticated = false
-        end
-    end
-    if authenticated == false
-        puts "Wrong username or password entered"
-    end
+    authenticated = auth_user(username, password, users)
+    
+    puts "Wrong username or password entered" if authenticated == false
 
     puts "Would you like to continue? Press q for quit or any other key to continue"
     selection = gets.chomp
 
-    if selection == 'q'
-        run = false
-    end
+    break if selection == 'q'
 end
